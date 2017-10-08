@@ -13,7 +13,6 @@ public class ParkingApplication extends SpringBootServletInitializer {
 
 	public static void main(String[] args) {
 		SpringApplication.run(ParkingApplication.class, args);
-		System.out.println("Hello world!");
 	}
 	
 	@Override
