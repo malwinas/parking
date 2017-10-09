@@ -6,6 +6,9 @@ import javax.validation.constraints.Size;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/*
+ * @author malwinas
+ */
 public class Parking {
 	
 	@Size(min=8, max=8)

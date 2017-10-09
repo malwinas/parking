@@ -21,10 +21,12 @@ import com.malwinas.parking.model.repository.TicketRepository;
 public class DriverService {
 	
 	private final TicketRepository ticketRepository;
+	private final ChargeService chargeService;
  
     @Autowired
-    public DriverService(TicketRepository ticketRepository) {
+    public DriverService(TicketRepository ticketRepository, ChargeService chargeService) {
         this.ticketRepository = ticketRepository;
+        this.chargeService = chargeService;
     }
 	
     @Transactional
@@ -47,10 +49,27 @@ public class DriverService {
 			throw new InvalidTicketException();
 		
 		Timestamp endTime = new Timestamp(DateTime.now().getMillis());
+		Double charge = chargeService.getDriverCharge(ticket.getStartTime(), endTime, ticket.getVipDriver());
 		
 		ticket.setEndTime(endTime);
-		ticket.setCharge(10.00);
+		ticket.setCharge(charge);
 		ticketRepository.save(ticket);
+	}
+	
+	@Transactional
+	public Double getCharge(Long ticketId) throws TicketNotFoundException {
+		Ticket ticket = ticketRepository.findOne(ticketId);
+		
+		if (ticket == null)
+			throw new TicketNotFoundException(ticketId);
+		
+		if (ticket.getCharge() != null)
+			return ticket.getCharge();
+		
+		Timestamp endTime = new Timestamp(DateTime.now().getMillis());
+		Double charge = chargeService.getDriverCharge(ticket.getStartTime(), endTime, ticket.getVipDriver());
+		
+		return charge;
 	}
 
 }

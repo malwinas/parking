@@ -15,5 +15,4 @@ public class TicketNotFoundException extends Exception {
 	public String getMessage() {
 		return "Ticket not found exception: " + ticketId;
 	}
-
 }
