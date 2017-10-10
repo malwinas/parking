@@ -44,70 +44,69 @@ public class DriverControllerMvcTest {
 	private final Long ticketId = new Long(1234);
 	private final String registrationNumber = "WWW12345";
 
-    @Before
-    public void setUp() {
-    	ChargeService chargeService = new ChargeService();
-    	DriverService driverService = new DriverService(ticketRepository, chargeService);
-        mockMvc = MockMvcBuilders
-                .standaloneSetup(new DriverController(driverService))
-                .build();
-        objectMapper = new ObjectMapper();
-        
-    }
-    
-    @Test
-    public void startParkingMeterTest() throws Exception {
-    	Ticket ticket = getTicket(ticketId);
-    	
-    	when(ticketRepository.save(any(Ticket.class))).thenReturn(ticket);
-    	
-    	Parking parking = new Parking(registrationNumber, false);
-    	String json = objectMapper.writeValueAsString(parking);
-    	
-    	String response = mockMvc.perform(post("/parking/driver/startParkingMeter")
-    				.contentType(MediaType.APPLICATION_JSON)
-    				.content(json))
-    			.andExpect(status().isOk())
-    			.andReturn().getResponse().getContentAsString();
-    	
-    	verify(ticketRepository).save(any(Ticket.class));
-    	
-    	Assert.assertEquals(ticketId.longValue(), new Long(response).longValue());
+	@Before
+	public void setUp() {
+		ChargeService chargeService = new ChargeService();
+		DriverService driverService = new DriverService(ticketRepository, chargeService);
+		mockMvc = MockMvcBuilders
+				.standaloneSetup(new DriverController(driverService))
+				.build();
+		objectMapper = new ObjectMapper();
 	}
 
-    @Test
-    public void stopParkingMeterTest() throws Exception {	
-    	when(ticketRepository.findOne(ticketId)).thenReturn(getTicket(ticketId));
-    	
-    	mockMvc.perform(post("/parking/driver/stopParkingMeter/{ticketId}", ticketId))
-    			.andExpect(status().isOk());
-    	
-    	verify(ticketRepository).save(any(Ticket.class));
-	}
-    
-    @Test
-    public void getChargeTest() throws Exception {	
-    	Long stopTime = DateTime.now().withTimeAtStartOfDay().plusHours(15).plusMinutes(10).getMillis();
-    	
-    	DateTimeUtils.setCurrentMillisFixed(stopTime);
-    	when(ticketRepository.findOne(ticketId)).thenReturn(getTicket(ticketId));
-    	
-    	String response = mockMvc.perform(get("/parking/driver/getCharge/{ticketId}", ticketId))
-    			.andExpect(status().isOk())
-    			.andReturn().getResponse().getContentAsString();
-    	
-    	DateTimeUtils.setCurrentMillisSystem();
-    	verify(ticketRepository).findOne(ticketId);
-    	
-    	Assert.assertEquals(255.0, new Double(response).doubleValue(), Math.pow(10, -2));
-	}
-    
-    private Ticket getTicket(Long ticketId) {
-    	Timestamp startTime = new Timestamp(DateTime.now().withTimeAtStartOfDay().plusHours(8).getMillis());
+	@Test
+	public void startParkingMeterTest() throws Exception {
+		Ticket ticket = getTicket(ticketId);
 		
-    	Ticket ticket = new Ticket(registrationNumber, startTime, false);
-    	ticket.setId(ticketId);
-    	
-    	return ticket;
-    }
+		when(ticketRepository.save(any(Ticket.class))).thenReturn(ticket);
+	
+		Parking parking = new Parking(registrationNumber, false);
+		String json = objectMapper.writeValueAsString(parking);
+
+		String response = mockMvc.perform(post("/parking/driver/startParkingMeter")
+					.contentType(MediaType.APPLICATION_JSON)
+					.content(json))
+				.andExpect(status().isOk())
+				.andReturn().getResponse().getContentAsString();
+		
+		verify(ticketRepository).save(any(Ticket.class));
+		
+		Assert.assertEquals(ticketId.longValue(), new Long(response).longValue());
+	}
+
+	@Test
+	public void stopParkingMeterTest() throws Exception {	
+		when(ticketRepository.findOne(ticketId)).thenReturn(getTicket(ticketId));
+		
+		mockMvc.perform(post("/parking/driver/stopParkingMeter/{ticketId}", ticketId))
+				.andExpect(status().isOk());
+		
+		verify(ticketRepository).findOne(ticketId);
+	}
+
+	@Test
+	public void getChargeTest() throws Exception {	
+		Long stopTime = DateTime.now().withTimeAtStartOfDay().plusHours(15).plusMinutes(10).getMillis();
+		
+		DateTimeUtils.setCurrentMillisFixed(stopTime);
+		when(ticketRepository.findOne(ticketId)).thenReturn(getTicket(ticketId));
+		
+		String response = mockMvc.perform(get("/parking/driver/getCharge/{ticketId}", ticketId))
+				.andExpect(status().isOk())
+				.andReturn().getResponse().getContentAsString();
+		
+		DateTimeUtils.setCurrentMillisSystem();
+		verify(ticketRepository).findOne(ticketId);
+		
+		Assert.assertEquals(255.0, new Double(response).doubleValue(), Math.pow(10, -2));
+	}
+
+	private Ticket getTicket(Long ticketId) {
+		Timestamp startTime = new Timestamp(DateTime.now().withTimeAtStartOfDay().plusHours(8).getMillis());
+		
+		Ticket ticket = new Ticket(registrationNumber, startTime, false);
+		ticket.setId(ticketId);
+		
+		return ticket;
+	}
 }

@@ -34,40 +34,40 @@ public class OperatorControllerMvcTest {
 	
 	private final String registrationNumber = "WWW12345";
 	@Before
-    public void setUp() {
-    	OperatorService driverService = new OperatorService(ticketRepository);
-        mockMvc = MockMvcBuilders
-                .standaloneSetup(new OperatorController(driverService))
-                .build();
+	public void setUp() {
+		OperatorService driverService = new OperatorService(ticketRepository);
+		mockMvc = MockMvcBuilders
+					.standaloneSetup(new OperatorController(driverService))
+					.build();
     }
 	
 	@Test
-    public void hasStartedParkingMeterTest() throws Exception {	
-    	long count = 1;
-    	when(ticketRepository.countByRegistrationNumberAndStartTimeBeforeAndEndTimeIsNull(eq(registrationNumber), any(Timestamp.class)))
-    		.thenReturn(count);
-    	
-    	String response = mockMvc
-    				.perform(get("/parking/operator/hasStartedParkingMeter/{registrationNumber}", registrationNumber))
-    			.andExpect(status().isOk())
-    			.andReturn().getResponse().getContentAsString();
-    	
-    	verify(ticketRepository).countByRegistrationNumberAndStartTimeBeforeAndEndTimeIsNull(eq(registrationNumber), any(Timestamp.class));
-    	Assert.assertTrue(new Boolean(response));
+	public void hasStartedParkingMeterTest() throws Exception {	
+		long count = 1;
+		when(ticketRepository.countByRegistrationNumberAndStartTimeBeforeAndEndTimeIsNull(eq(registrationNumber), any(Timestamp.class)))
+			.thenReturn(count);
+		
+		String response = mockMvc
+					.perform(get("/parking/operator/hasStartedParkingMeter/{registrationNumber}", registrationNumber))
+				.andExpect(status().isOk())
+				.andReturn().getResponse().getContentAsString();
+		
+		verify(ticketRepository).countByRegistrationNumberAndStartTimeBeforeAndEndTimeIsNull(eq(registrationNumber), any(Timestamp.class));
+		Assert.assertTrue(new Boolean(response));
 	}
 	
 	@Test
-    public void hasNotStartedParkingMeterTest() throws Exception {	
-    	long count = 0;
-    	when(ticketRepository.countByRegistrationNumberAndStartTimeBeforeAndEndTimeIsNull(eq(registrationNumber), any(Timestamp.class)))
-    		.thenReturn(count);
-    	
-    	String response = mockMvc
-    				.perform(get("/parking/operator/hasStartedParkingMeter/{registrationNumber}", registrationNumber))
-    			.andExpect(status().isOk())
-    			.andReturn().getResponse().getContentAsString();
-    	
-    	verify(ticketRepository).countByRegistrationNumberAndStartTimeBeforeAndEndTimeIsNull(eq(registrationNumber), any(Timestamp.class));
-    	Assert.assertFalse(new Boolean(response));
+	public void hasNotStartedParkingMeterTest() throws Exception {	
+		long count = 0;
+		when(ticketRepository.countByRegistrationNumberAndStartTimeBeforeAndEndTimeIsNull(eq(registrationNumber), any(Timestamp.class)))
+			.thenReturn(count);
+		
+		String response = mockMvc
+					.perform(get("/parking/operator/hasStartedParkingMeter/{registrationNumber}", registrationNumber))
+				.andExpect(status().isOk())
+				.andReturn().getResponse().getContentAsString();
+		
+		verify(ticketRepository).countByRegistrationNumberAndStartTimeBeforeAndEndTimeIsNull(eq(registrationNumber), any(Timestamp.class));
+		Assert.assertFalse(new Boolean(response));
 	}
 }

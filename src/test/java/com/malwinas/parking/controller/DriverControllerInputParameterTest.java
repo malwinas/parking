@@ -30,37 +30,37 @@ public class DriverControllerInputParameterTest {
 	private MockMvc mockMvc;
 	private ObjectMapper objectMapper;
 
-    @Before
-    public void setUp() {
-    	ChargeService chargeService = new ChargeService();
-    	DriverService driverService = new DriverService(ticketRepository, chargeService);
-        mockMvc = MockMvcBuilders
-                	.standaloneSetup(new DriverController(driverService))
-                	.build();
-        objectMapper = new ObjectMapper();
-    }
-    
-    @Test
-    public void invalidRegistrationNumberTest() throws Exception {
-    	Parking parking = new Parking("", false);
-    	
-    	String json = objectMapper.writeValueAsString(parking);
-    	
-    	mockMvc.perform(post("/parking/driver/startParkingMeter")
-    				.contentType(MediaType.APPLICATION_JSON)
-    				.content(json))
-    			.andExpect(status().isBadRequest());
+	@Before
+	public void setUp() {
+		ChargeService chargeService = new ChargeService();
+		DriverService driverService = new DriverService(ticketRepository, chargeService);
+		mockMvc = MockMvcBuilders
+					.standaloneSetup(new DriverController(driverService))
+					.build();
+		objectMapper = new ObjectMapper();
 	}
-    
-    @Test
-    public void invalidIsVipDriverTest() throws Exception {
-    	Parking parking = new Parking("WWW12345", null);
-    	
-    	String json = objectMapper.writeValueAsString(parking);
-    	
-    	mockMvc.perform(post("/parking/driver/startParkingMeter")
-    				.contentType(MediaType.APPLICATION_JSON)
-    				.content(json))
-    			.andExpect(status().isBadRequest());
+
+	@Test
+	public void invalidRegistrationNumberTest() throws Exception {
+		Parking parking = new Parking("", false);
+		
+		String json = objectMapper.writeValueAsString(parking);
+		
+		mockMvc.perform(post("/parking/driver/startParkingMeter")
+					.contentType(MediaType.APPLICATION_JSON)
+					.content(json))
+				.andExpect(status().isBadRequest());
+	}
+
+	@Test
+	public void invalidIsVipDriverTest() throws Exception {
+		Parking parking = new Parking("WWW12345", null);
+		
+		String json = objectMapper.writeValueAsString(parking);
+		
+		mockMvc.perform(post("/parking/driver/startParkingMeter")
+					.contentType(MediaType.APPLICATION_JSON)
+					.content(json))
+				.andExpect(status().isBadRequest());
 	}
 }

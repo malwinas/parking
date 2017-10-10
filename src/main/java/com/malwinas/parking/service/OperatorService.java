@@ -17,16 +17,16 @@ public class OperatorService {
 	
 	private final TicketRepository ticketRepository;
  
-    @Autowired
-    public OperatorService(TicketRepository ticketRepository) {
-        this.ticketRepository = ticketRepository;
-    }
-    
-    @Transactional
-    public Boolean hasStartedParkingMeter(String registrationNumber) {
-    	Timestamp time = new Timestamp(DateTime.now().getMillis());
-    	long ticketCount = ticketRepository.countByRegistrationNumberAndStartTimeBeforeAndEndTimeIsNull(registrationNumber, time);
-    	
-    	return ticketCount > 0;
-    }
+	@Autowired
+	public OperatorService(TicketRepository ticketRepository) {
+		this.ticketRepository = ticketRepository;
+	}
+
+	@Transactional
+	public Boolean hasStartedParkingMeter(String registrationNumber) {
+		Timestamp time = new Timestamp(DateTime.now().getMillis());
+		long ticketCount = ticketRepository.countByRegistrationNumberAndStartTimeBeforeAndEndTimeIsNull(registrationNumber, time);
+		
+		return ticketCount > 0;
+	}
 }

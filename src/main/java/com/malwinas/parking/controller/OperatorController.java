@@ -21,8 +21,8 @@ public class OperatorController {
 	
 	@Autowired
 	public OperatorController(OperatorService operatorService) {
-        this.operatorService = operatorService;
-    }
+		this.operatorService = operatorService;
+	}
 	
 	@RequestMapping(value = "/hasStartedParkingMeter/{registrationNumber}", method = RequestMethod.GET)
 	public ResponseEntity<Boolean> hasStartedParkingMeter(

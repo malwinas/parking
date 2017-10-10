@@ -32,8 +32,8 @@ public class DriverController {
 	
 	@Autowired
 	public DriverController(DriverService driverService) {
-        this.driverService = driverService;
-    }
+		this.driverService = driverService;
+	}
 	
 	@RequestMapping(value = "/startParkingMeter", method = RequestMethod.POST)
 	public ResponseEntity<Long> startParkingMeter(@Valid @RequestBody Parking parking) {

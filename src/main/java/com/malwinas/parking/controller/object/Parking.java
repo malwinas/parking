@@ -19,7 +19,7 @@ public class Parking {
 	
 	@JsonCreator
 	public Parking(@JsonProperty("registrationNumber") String registrationNumber, 
-				   @JsonProperty("isVipDriver") Boolean isVipDriver) {
+					@JsonProperty("isVipDriver") Boolean isVipDriver) {
 		this.registrationNumber = registrationNumber;
 		this.isVipDriver = isVipDriver;
 	}

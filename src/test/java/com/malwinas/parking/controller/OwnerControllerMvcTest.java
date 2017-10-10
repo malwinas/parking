@@ -37,41 +37,41 @@ public class OwnerControllerMvcTest {
 	private MockMvc mockMvc;
 	
 	@Before
-    public void setUp() {
-    	OwnerService ownerService = new OwnerService(ticketRepository);
-        mockMvc = MockMvcBuilders
-                .standaloneSetup(new OwnerController(ownerService))
-                .build();
+	public void setUp() {
+		OwnerService ownerService = new OwnerService(ticketRepository);
+		mockMvc = MockMvcBuilders
+					.standaloneSetup(new OwnerController(ownerService))
+					.build();
     }
 	
 	@Test
     public void getProfitTest() throws Exception {
 		when(ticketRepository.findByEndTimeGreaterThanEqualAndEndTimeLessThanEqual(any(Timestamp.class), any(Timestamp.class)))
-    		.thenReturn(getTickets());
-    	
-    	String response = mockMvc.perform(get("/parking/owner/getProfit")
-    				.param("time", new Long(DateTime.now().getMillis()).toString()))
-    			.andExpect(status().isOk())
-    			.andReturn().getResponse().getContentAsString();
-    	
-    	verify(ticketRepository).findByEndTimeGreaterThanEqualAndEndTimeLessThanEqual(any(Timestamp.class), any(Timestamp.class));
-    	
-    	Assert.assertEquals(9.0, new Double(response).doubleValue(), Math.pow(10, -2));
+			.thenReturn(getTickets());
+		
+		String response = mockMvc.perform(get("/parking/owner/getProfit")
+					.param("time", new Long(DateTime.now().getMillis()).toString()))
+				.andExpect(status().isOk())
+				.andReturn().getResponse().getContentAsString();
+		
+		verify(ticketRepository).findByEndTimeGreaterThanEqualAndEndTimeLessThanEqual(any(Timestamp.class), any(Timestamp.class));
+		
+		Assert.assertEquals(9.0, new Double(response).doubleValue(), Math.pow(10, -2));
 	}
 	
 	@Test
-    public void getNoProfitTest() throws Exception {
+	public void getNoProfitTest() throws Exception {
 		when(ticketRepository.findByEndTimeGreaterThanEqualAndEndTimeLessThanEqual(any(Timestamp.class), any(Timestamp.class)))
-    		.thenReturn(new ArrayList<Ticket>());
-    	
-    	String response = mockMvc.perform(get("/parking/owner/getProfit")
-    				.param("time", new Long(DateTime.now().getMillis()).toString()))
-    			.andExpect(status().isOk())
-    			.andReturn().getResponse().getContentAsString();
-    	
-    	verify(ticketRepository).findByEndTimeGreaterThanEqualAndEndTimeLessThanEqual(any(Timestamp.class), any(Timestamp.class));
-    	
-    	Assert.assertEquals(0.0, new Double(response).doubleValue(), Math.pow(10, -2));
+			.thenReturn(new ArrayList<Ticket>());
+		
+		String response = mockMvc.perform(get("/parking/owner/getProfit")
+					.param("time", new Long(DateTime.now().getMillis()).toString()))
+				.andExpect(status().isOk())
+				.andReturn().getResponse().getContentAsString();
+		
+		verify(ticketRepository).findByEndTimeGreaterThanEqualAndEndTimeLessThanEqual(any(Timestamp.class), any(Timestamp.class));
+		
+		Assert.assertEquals(0.0, new Double(response).doubleValue(), Math.pow(10, -2));
 	}
 	
 	private Collection<Ticket> getTickets() {

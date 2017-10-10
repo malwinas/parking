@@ -20,12 +20,12 @@ public class OwnerService {
 	
 	private final TicketRepository ticketRepository;
  
-    @Autowired
-    public OwnerService(TicketRepository ticketRepository) {
-        this.ticketRepository = ticketRepository;
-    }
+	@Autowired
+	public OwnerService(TicketRepository ticketRepository) {
+		this.ticketRepository = ticketRepository;
+	}
 	
-    @Transactional
+	@Transactional
 	public Double getProfit(Long time) {
 		Timestamp startOfDay = new Timestamp(new DateTime(time).withTimeAtStartOfDay().getMillis());
 		Timestamp endOfDay = new Timestamp(new DateTime(time).millisOfDay().withMaximumValue().getMillis());
@@ -36,5 +36,4 @@ public class OwnerService {
 		
 		return profit;
 	}
-
 }

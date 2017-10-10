@@ -22,13 +22,13 @@ public class DriverService {
 	private final TicketRepository ticketRepository;
 	private final ChargeService chargeService;
  
-    @Autowired
-    public DriverService(TicketRepository ticketRepository, ChargeService chargeService) {
-        this.ticketRepository = ticketRepository;
-        this.chargeService = chargeService;
-    }
+	@Autowired
+	public DriverService(TicketRepository ticketRepository, ChargeService chargeService) {
+		this.ticketRepository = ticketRepository;
+		this.chargeService = chargeService;
+	}
 	
-    @Transactional
+	@Transactional
 	public Long startParking(Parking parking) {
 		Timestamp startTime = new Timestamp(DateTime.now().getMillis());
 		Ticket ticket = new Ticket(parking.getRegistrationNumber(), startTime, parking.getIsVipDriver());
@@ -51,7 +51,6 @@ public class DriverService {
 		
 		ticket.setEndTime(endTime);
 		ticket.setCharge(charge);
-		ticketRepository.save(ticket);
 	}
 	
 	@Transactional

@@ -18,7 +18,7 @@ public class Ticket {
 	
 	@Id
 	@Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
 	@Column(name = "registration_number", nullable = false)
@@ -40,6 +40,9 @@ public class Ticket {
 		this.registrationNumber = registrationNumber;
 		this.startTime = startTime;
 		this.vipDriver = vipDriver;
+	}
+	
+	public Ticket() {
 	}
 
 	public Long getId() {

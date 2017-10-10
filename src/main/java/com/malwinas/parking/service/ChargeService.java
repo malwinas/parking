@@ -17,11 +17,7 @@ public class ChargeService {
 	
 	public Double getRegularDriverCharge(Timestamp start, Timestamp end) {
 		int hours = getHours(start, end);
-		
-		int q = 2;
-		int a = 1;
-		
-		return a * (1 - Math.pow(q, hours))/(1 - q);
+		return getGeometricSequenceSum(2, 1, hours);
 	}
 	
 	public Double getVipDriverCharge(Timestamp start, Timestamp end) {
@@ -30,12 +26,7 @@ public class ChargeService {
 		if (hours == 0 || hours == 1)
 			return 0.0;
 		
-		double q = 1.5;
-		double a = 2.0;
-		
-		double charge = a * (1 - Math.pow(q, hours - 1))/(1 - q);
-		
-		return (Math.round(charge * 100) / 100.0);
+		return getGeometricSequenceSum(1.5, 2.0, hours - 1);
 	}
 	
 	private int getHours(Timestamp start, Timestamp end) {
@@ -46,5 +37,10 @@ public class ChargeService {
 		double hours = (double) interval / DateTimeConstants.MILLIS_PER_HOUR;
 		
 		return (int) Math.ceil(hours);
+	}
+	
+	private double getGeometricSequenceSum(double ratio, double firstHour, int hours) {
+		double sum = firstHour * (1 - Math.pow(ratio, hours))/(1 - ratio);
+		return (Math.round(sum * 100) / 100.0);
 	}
 }
