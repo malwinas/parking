@@ -2,11 +2,10 @@ package com.malwinas.parking.service;
 
 import java.sql.Timestamp;
 
-import javax.transaction.Transactional;
-
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.malwinas.parking.controller.object.Parking;
 import com.malwinas.parking.exception.InvalidTicketException;
@@ -31,7 +30,6 @@ public class DriverService {
 	
     @Transactional
 	public Long startParking(Parking parking) {
-		
 		Timestamp startTime = new Timestamp(DateTime.now().getMillis());
 		Ticket ticket = new Ticket(parking.getRegistrationNumber(), startTime, parking.getIsVipDriver());
 		
@@ -45,7 +43,7 @@ public class DriverService {
 		if (ticket == null)
 			throw new TicketNotFoundException(ticketId);
 		
-		if (ticket.getEndTime() != null || ticket.getCharge() != null)
+		if (ticket.getEndTime() != null)
 			throw new InvalidTicketException();
 		
 		Timestamp endTime = new Timestamp(DateTime.now().getMillis());

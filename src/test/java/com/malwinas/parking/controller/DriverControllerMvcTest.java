@@ -41,7 +41,8 @@ public class DriverControllerMvcTest {
 	private MockMvc mockMvc;
 	private ObjectMapper objectMapper;
 	
-	private Long ticketId = new Long(1234);
+	private final Long ticketId = new Long(1234);
+	private final String registrationNumber = "WWW12345";
 
     @Before
     public void setUp() {
@@ -60,7 +61,7 @@ public class DriverControllerMvcTest {
     	
     	when(ticketRepository.save(any(Ticket.class))).thenReturn(ticket);
     	
-    	Parking parking = new Parking("WWW12345", false);
+    	Parking parking = new Parking(registrationNumber, false);
     	String json = objectMapper.writeValueAsString(parking);
     	
     	String response = mockMvc.perform(post("/parking/driver/startParkingMeter")
@@ -78,11 +79,7 @@ public class DriverControllerMvcTest {
     public void stopParkingMeterTest() throws Exception {	
     	when(ticketRepository.findOne(ticketId)).thenReturn(getTicket(ticketId));
     	
-    	String json = objectMapper.writeValueAsString(ticketId);
-    	
-    	mockMvc.perform(post("/parking/driver/stopParkingMeter")
-    				.contentType(MediaType.APPLICATION_JSON)
-    				.content(json))
+    	mockMvc.perform(post("/parking/driver/stopParkingMeter/{ticketId}", ticketId))
     			.andExpect(status().isOk());
     	
     	verify(ticketRepository).save(any(Ticket.class));
@@ -95,8 +92,7 @@ public class DriverControllerMvcTest {
     	DateTimeUtils.setCurrentMillisFixed(stopTime);
     	when(ticketRepository.findOne(ticketId)).thenReturn(getTicket(ticketId));
     	
-    	String response = mockMvc.perform(get("/parking/driver/getCharge")
-    				.param("ticketId", ticketId.toString()))
+    	String response = mockMvc.perform(get("/parking/driver/getCharge/{ticketId}", ticketId))
     			.andExpect(status().isOk())
     			.andReturn().getResponse().getContentAsString();
     	
@@ -109,7 +105,7 @@ public class DriverControllerMvcTest {
     private Ticket getTicket(Long ticketId) {
     	Timestamp startTime = new Timestamp(DateTime.now().withTimeAtStartOfDay().plusHours(8).getMillis());
 		
-    	Ticket ticket = new Ticket("WWW12345", startTime, false);
+    	Ticket ticket = new Ticket(registrationNumber, startTime, false);
     	ticket.setId(ticketId);
     	
     	return ticket;

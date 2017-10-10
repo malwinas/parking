@@ -3,9 +3,11 @@ package com.malwinas.parking.service;
 import java.sql.Timestamp;
 import java.util.Collection;
 
+
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.malwinas.parking.model.Ticket;
 import com.malwinas.parking.model.repository.TicketRepository;
@@ -23,11 +25,12 @@ public class OwnerService {
         this.ticketRepository = ticketRepository;
     }
 	
+    @Transactional
 	public Double getProfit(Long time) {
 		Timestamp startOfDay = new Timestamp(new DateTime(time).withTimeAtStartOfDay().getMillis());
 		Timestamp endOfDay = new Timestamp(new DateTime(time).millisOfDay().withMaximumValue().getMillis());
 		
-		Collection<Ticket> tickets = ticketRepository.findByEndTimeAfterAndEndTimeBefore(startOfDay, endOfDay);
+		Collection<Ticket> tickets = ticketRepository.findByEndTimeGreaterThanEqualAndEndTimeLessThanEqual(startOfDay, endOfDay);
 		
 		Double profit = tickets.stream().mapToDouble(o -> o.getCharge()).sum();
 		

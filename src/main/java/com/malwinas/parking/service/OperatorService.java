@@ -5,6 +5,7 @@ import java.sql.Timestamp;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.malwinas.parking.model.repository.TicketRepository;
 
@@ -21,9 +22,10 @@ public class OperatorService {
         this.ticketRepository = ticketRepository;
     }
     
+    @Transactional
     public Boolean hasStartedParkingMeter(String registrationNumber) {
     	Timestamp time = new Timestamp(DateTime.now().getMillis());
-    	long ticketCount = ticketRepository.countByRegistrationNumberAndStartTimeBeforeAndEndTimeIsNull(time);
+    	long ticketCount = ticketRepository.countByRegistrationNumberAndStartTimeBeforeAndEndTimeIsNull(registrationNumber, time);
     	
     	return ticketCount > 0;
     }

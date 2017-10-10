@@ -45,34 +45,47 @@ public class OwnerControllerMvcTest {
     }
 	
 	@Test
-    public void getChargeTest() throws Exception {	
-		Long nowMillis = DateTime.now().getMillis();
-    	
-		when(ticketRepository.findByEndTimeAfterAndEndTimeBefore(any(Timestamp.class), any(Timestamp.class)))
+    public void getProfitTest() throws Exception {
+		when(ticketRepository.findByEndTimeGreaterThanEqualAndEndTimeLessThanEqual(any(Timestamp.class), any(Timestamp.class)))
     		.thenReturn(getTickets());
     	
     	String response = mockMvc.perform(get("/parking/owner/getProfit")
-    				.param("time", nowMillis.toString()))
+    				.param("time", new Long(DateTime.now().getMillis()).toString()))
     			.andExpect(status().isOk())
     			.andReturn().getResponse().getContentAsString();
     	
-    	verify(ticketRepository).findByEndTimeAfterAndEndTimeBefore(any(Timestamp.class), any(Timestamp.class));
+    	verify(ticketRepository).findByEndTimeGreaterThanEqualAndEndTimeLessThanEqual(any(Timestamp.class), any(Timestamp.class));
     	
     	Assert.assertEquals(9.0, new Double(response).doubleValue(), Math.pow(10, -2));
+	}
+	
+	@Test
+    public void getNoProfitTest() throws Exception {
+		when(ticketRepository.findByEndTimeGreaterThanEqualAndEndTimeLessThanEqual(any(Timestamp.class), any(Timestamp.class)))
+    		.thenReturn(new ArrayList<Ticket>());
+    	
+    	String response = mockMvc.perform(get("/parking/owner/getProfit")
+    				.param("time", new Long(DateTime.now().getMillis()).toString()))
+    			.andExpect(status().isOk())
+    			.andReturn().getResponse().getContentAsString();
+    	
+    	verify(ticketRepository).findByEndTimeGreaterThanEqualAndEndTimeLessThanEqual(any(Timestamp.class), any(Timestamp.class));
+    	
+    	Assert.assertEquals(0.0, new Double(response).doubleValue(), Math.pow(10, -2));
 	}
 	
 	private Collection<Ticket> getTickets() {
 		Timestamp firstStartTime = new Timestamp(DateTime.now().withTimeAtStartOfDay().plusHours(10).getMillis());
 		Timestamp firstEndTime = new Timestamp(DateTime.now().withTimeAtStartOfDay().plusHours(13).getMillis());
 		Ticket firstTicket = new Ticket("WWW12345", firstStartTime, false);
-		firstTicket.setId(new Long(1L));
+		firstTicket.setId(new Long(1));
 		firstTicket.setEndTime(firstEndTime);
 		firstTicket.setCharge(7.0);
 		
 		Timestamp secondStartTime = new Timestamp(DateTime.now().withTimeAtStartOfDay().plusHours(13).getMillis());
 		Timestamp secondEndTime = new Timestamp(DateTime.now().withTimeAtStartOfDay().plusHours(15).getMillis());
 		Ticket secondTicket = new Ticket("WWW54321", secondStartTime, true);
-		secondTicket.setId(new Long(2L));
+		secondTicket.setId(new Long(2));
 		secondTicket.setEndTime(secondEndTime);
 		secondTicket.setCharge(2.0);
 		

@@ -9,10 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.malwinas.parking.controller.object.Parking;
@@ -41,13 +41,13 @@ public class DriverController {
 		return new ResponseEntity<Long>(ticketId, HttpStatus.OK);
     }
 	
-	@RequestMapping(value = "/stopParkingMeter", method = RequestMethod.POST)
-	public void stopParkingMeter(@RequestBody Long ticketId) throws TicketNotFoundException, InvalidTicketException {
+	@RequestMapping(value = "/stopParkingMeter/{ticketId}", method = RequestMethod.POST)
+	public void stopParkingMeter(@PathVariable("ticketId") Long ticketId) throws TicketNotFoundException, InvalidTicketException {
 		driverService.stopParking(ticketId);
     }
 	
-	@RequestMapping(value = "/getCharge", method = RequestMethod.GET)
-	public ResponseEntity<Double> getCharge(@RequestParam("ticketId") Long ticketId) throws TicketNotFoundException {
+	@RequestMapping(value = "/getCharge/{ticketId}", method = RequestMethod.GET)
+	public ResponseEntity<Double> getCharge(@PathVariable("ticketId") Long ticketId) throws TicketNotFoundException {
 		Double charge = driverService.getCharge(ticketId);
 		return new ResponseEntity<Double>(charge, HttpStatus.OK);
     }

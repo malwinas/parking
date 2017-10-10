@@ -11,7 +11,9 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import com.malwinas.parking.service.ChargeService;
 
-
+/*
+ * @author malwinas
+ */
 @RunWith(MockitoJUnitRunner.class)
 public class ChargeServiceTest {
 	
@@ -43,7 +45,7 @@ public class ChargeServiceTest {
 				.plusMinutes(30).getMillis());
 		
 		Double charge = chargeService.getRegularDriverCharge(start, end);
-		Assert.assertEquals(127.0, charge, Math.pow(10, -2));
+		Assert.assertEquals(127.0, charge.doubleValue(), Math.pow(10, -2));
 	}
 	
 	@Test
@@ -52,7 +54,7 @@ public class ChargeServiceTest {
 		Timestamp end = new Timestamp(DateTime.now().withTimeAtStartOfDay().plusHours(7).getMillis());
 		
 		Double charge = chargeService.getVipDriverCharge(start, end);
-		Assert.assertEquals(0.0, charge, Math.pow(10, -2));
+		Assert.assertEquals(0.0, charge.doubleValue(), Math.pow(10, -2));
 	}
 	
 	@Test
@@ -61,7 +63,7 @@ public class ChargeServiceTest {
 		Timestamp end = new Timestamp(DateTime.now().withTimeAtStartOfDay().plusHours(9).getMillis());
 		
 		Double charge = chargeService.getVipDriverCharge(start, end);
-		Assert.assertEquals(0.0, charge, Math.pow(10, -2));
+		Assert.assertEquals(0.0, charge.doubleValue(), Math.pow(10, -2));
 	}
 	
 	@Test
@@ -71,7 +73,7 @@ public class ChargeServiceTest {
 				.getMillis());
 		
 		Double charge = chargeService.getVipDriverCharge(start, end);
-		Assert.assertEquals(41.56, charge, Math.pow(10, -2));
+		Assert.assertEquals(41.56, charge.doubleValue(), Math.pow(10, -2));
 	}
 	
 }

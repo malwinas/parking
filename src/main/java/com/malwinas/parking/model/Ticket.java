@@ -27,14 +27,14 @@ public class Ticket {
 	@Column(name = "start_time", nullable = false)
 	private Timestamp startTime;
 	
+	@Column(name = "vip_driver", nullable = false)
+	private Boolean vipDriver;
+	
 	@Column(name = "end_time")
 	private Timestamp endTime;
 	
 	@Column(name = "charge")
 	private Double charge;
-	
-	@Column(name = "vip_driver")
-	private Boolean vipDriver;
 	
 	public Ticket(String registrationNumber, Timestamp startTime, Boolean vipDriver) {
 		this.registrationNumber = registrationNumber;
@@ -66,6 +66,14 @@ public class Ticket {
 		this.startTime = startTime;
 	}
 
+	public Boolean getVipDriver() {
+		return vipDriver;
+	}
+
+	public void setVipDriver(Boolean vipDriver) {
+		this.vipDriver = vipDriver;
+	}
+
 	public Timestamp getEndTime() {
 		return endTime;
 	}
@@ -80,13 +88,5 @@ public class Ticket {
 
 	public void setCharge(Double charge) {
 		this.charge = charge;
-	}
-
-	public Boolean getVipDriver() {
-		return vipDriver;
-	}
-
-	public void setVipDriver(Boolean vipDriver) {
-		this.vipDriver = vipDriver;
 	}
 }
