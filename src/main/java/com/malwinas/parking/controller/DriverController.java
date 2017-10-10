@@ -39,28 +39,28 @@ public class DriverController {
 	public ResponseEntity<Long> startParkingMeter(@Valid @RequestBody Parking parking) {
 		Long ticketId = driverService.startParking(parking);
 		return new ResponseEntity<Long>(ticketId, HttpStatus.OK);
-    }
+	}
 	
 	@RequestMapping(value = "/stopParkingMeter/{ticketId}", method = RequestMethod.POST)
 	public void stopParkingMeter(@PathVariable("ticketId") Long ticketId) throws TicketNotFoundException, InvalidTicketException {
 		driverService.stopParking(ticketId);
-    }
+	}
 	
 	@RequestMapping(value = "/getCharge/{ticketId}", method = RequestMethod.GET)
 	public ResponseEntity<Double> getCharge(@PathVariable("ticketId") Long ticketId) throws TicketNotFoundException {
 		Double charge = driverService.getCharge(ticketId);
 		return new ResponseEntity<Double>(charge, HttpStatus.OK);
-    }
+	}
 	
 	@ExceptionHandler({TicketNotFoundException.class})
-    public ResponseEntity<String> handleTicketNotFoundException(TicketNotFoundException ex) {
+	public ResponseEntity<String> handleTicketNotFoundException(TicketNotFoundException ex) {
 		logger.log(Level.WARNING, ex.getMessage());
 		return new ResponseEntity<String>(ex.getMessage(), HttpStatus.NO_CONTENT);
-    } 
+	} 
 	
 	@ExceptionHandler({InvalidTicketException.class})
-    public ResponseEntity<String> handleInvalidTicketException(InvalidTicketException ex) {
+	public ResponseEntity<String> handleInvalidTicketException(InvalidTicketException ex) {
 		logger.log(Level.WARNING, ex.getMessage());
 		return new ResponseEntity<String>(ex.getMessage(), HttpStatus.CONFLICT);
-    }
+	}
 }

@@ -21,12 +21,12 @@ public class OwnerController {
 	
 	@Autowired
 	public OwnerController(OwnerService ownerService) {
-        this.ownerService = ownerService;
-    }
+		this.ownerService = ownerService;
+	}
 	
 	@RequestMapping(value = "/getProfit", method = RequestMethod.GET)
 	public ResponseEntity<Double> getCharge(@RequestParam("time") Long time) {
 		Double profit = ownerService.getProfit(time);
 		return new ResponseEntity<Double>(profit, HttpStatus.OK);
-    }
+	}
 }

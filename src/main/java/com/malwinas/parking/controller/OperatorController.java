@@ -29,5 +29,5 @@ public class OperatorController {
 			@PathVariable("registrationNumber") String registrationNumber) {
 		Boolean hasStartedParkingmeter = operatorService.hasStartedParkingMeter(registrationNumber);
 		return new ResponseEntity<Boolean>(hasStartedParkingmeter, HttpStatus.OK);
-    }
+	}
 }

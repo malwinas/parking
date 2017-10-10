@@ -42,10 +42,10 @@ public class OwnerControllerMvcTest {
 		mockMvc = MockMvcBuilders
 					.standaloneSetup(new OwnerController(ownerService))
 					.build();
-    }
+	}
 	
 	@Test
-    public void getProfitTest() throws Exception {
+	public void getProfitTest() throws Exception {
 		when(ticketRepository.findByEndTimeGreaterThanEqualAndEndTimeLessThanEqual(any(Timestamp.class), any(Timestamp.class)))
 			.thenReturn(getTickets());
 		

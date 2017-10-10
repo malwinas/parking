@@ -26,7 +26,7 @@ public class DriverControllerInputParameterTest {
 	
 	@Mock
 	private TicketRepository ticketRepository;
-	 
+	
 	private MockMvc mockMvc;
 	private ObjectMapper objectMapper;
 

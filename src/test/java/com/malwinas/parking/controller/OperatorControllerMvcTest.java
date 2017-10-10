@@ -39,7 +39,7 @@ public class OperatorControllerMvcTest {
 		mockMvc = MockMvcBuilders
 					.standaloneSetup(new OperatorController(driverService))
 					.build();
-    }
+	}
 	
 	@Test
 	public void hasStartedParkingMeterTest() throws Exception {	
