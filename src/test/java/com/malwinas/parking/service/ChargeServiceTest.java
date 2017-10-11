@@ -26,7 +26,7 @@ public class ChargeServiceTest {
 		Timestamp end = new Timestamp(DateTime.now().withTimeAtStartOfDay().plusHours(7).getMillis());
 		
 		Double charge = chargeService.getRegularDriverCharge(start, end);
-		Assert.assertEquals(0.0, charge, Math.pow(10, -2));
+		Assert.assertEquals(0.0, charge.doubleValue(), Math.pow(10, -2));
 	}
 	
 	@Test
@@ -35,14 +35,14 @@ public class ChargeServiceTest {
 		Timestamp end = new Timestamp(DateTime.now().withTimeAtStartOfDay().plusHours(9).getMillis());
 		
 		Double charge = chargeService.getRegularDriverCharge(start, end);
-		Assert.assertEquals(1.0, charge, Math.pow(10, -2));
+		Assert.assertEquals(1.0, charge.doubleValue(), Math.pow(10, -2));
 	}
 	
 	@Test
 	public void regularDriverDuring7HoursTest() {
 		Timestamp start = new Timestamp(DateTime.now().withTimeAtStartOfDay().plusHours(8).getMillis());
-		Timestamp end = new Timestamp(DateTime.now().withTimeAtStartOfDay().plusHours(14)
-				.plusMinutes(30).getMillis());
+		Timestamp end = new Timestamp(DateTime.now().withTimeAtStartOfDay()
+				.plusHours(14).plusMinutes(30).getMillis());
 		
 		Double charge = chargeService.getRegularDriverCharge(start, end);
 		Assert.assertEquals(127.0, charge.doubleValue(), Math.pow(10, -2));
@@ -69,8 +69,8 @@ public class ChargeServiceTest {
 	@Test
 	public void vipDriverDuring7HoursTest() {
 		Timestamp start = new Timestamp(DateTime.now().withTimeAtStartOfDay().plusHours(8).getMillis());
-		Timestamp end = new Timestamp(DateTime.now().withTimeAtStartOfDay().plusHours(14).plusMinutes(30)
-				.getMillis());
+		Timestamp end = new Timestamp(DateTime.now().withTimeAtStartOfDay()
+				.plusHours(14).plusMinutes(30).getMillis());
 		
 		Double charge = chargeService.getVipDriverCharge(start, end);
 		Assert.assertEquals(41.56, charge.doubleValue(), Math.pow(10, -2));
