@@ -30,7 +30,7 @@ public class ChargeServiceTest {
 	}
 	
 	@Test
-	public void regularDriverChargeTest() {
+	public void regularDriverDuringHourChargeTest() {
 		Timestamp start = new Timestamp(DateTime.now().withTimeAtStartOfDay().plusHours(8).getMillis());
 		Timestamp end = new Timestamp(DateTime.now().withTimeAtStartOfDay().plusHours(9).getMillis());
 		
@@ -39,7 +39,7 @@ public class ChargeServiceTest {
 	}
 	
 	@Test
-	public void regularDriverTest() {
+	public void regularDriverDuring7HoursTest() {
 		Timestamp start = new Timestamp(DateTime.now().withTimeAtStartOfDay().plusHours(8).getMillis());
 		Timestamp end = new Timestamp(DateTime.now().withTimeAtStartOfDay().plusHours(14)
 				.plusMinutes(30).getMillis());
@@ -58,7 +58,7 @@ public class ChargeServiceTest {
 	}
 	
 	@Test
-	public void vipDriverChargeTest() {
+	public void vipDriverDuringHourChargeTest() {
 		Timestamp start = new Timestamp(DateTime.now().withTimeAtStartOfDay().plusHours(8).getMillis());
 		Timestamp end = new Timestamp(DateTime.now().withTimeAtStartOfDay().plusHours(9).getMillis());
 		
@@ -67,7 +67,7 @@ public class ChargeServiceTest {
 	}
 	
 	@Test
-	public void vipDriverTest() {
+	public void vipDriverDuring7HoursTest() {
 		Timestamp start = new Timestamp(DateTime.now().withTimeAtStartOfDay().plusHours(8).getMillis());
 		Timestamp end = new Timestamp(DateTime.now().withTimeAtStartOfDay().plusHours(14).plusMinutes(30)
 				.getMillis());
