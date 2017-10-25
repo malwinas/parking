@@ -1,5 +1,6 @@
 package com.malwinas.parking.service;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 import org.joda.time.DateTime;
@@ -47,14 +48,14 @@ public class DriverService {
 			throw new InvalidTicketException();
 		
 		Timestamp endTime = new Timestamp(DateTime.now().getMillis());
-		Double charge = chargeService.getDriverCharge(ticket.getStartTime(), endTime, ticket.getVipDriver());
+		BigDecimal charge = chargeService.getDriverCharge(ticket.getStartTime(), endTime, ticket.getVipDriver());
 		
 		ticket.setEndTime(endTime);
 		ticket.setCharge(charge);
 	}
 	
 	@Transactional
-	public Double getCharge(Long ticketId) throws TicketNotFoundException {
+	public BigDecimal getCharge(Long ticketId) throws TicketNotFoundException {
 		Ticket ticket = ticketRepository.findOne(ticketId);
 		
 		if (ticket == null)
@@ -64,7 +65,7 @@ public class DriverService {
 			return ticket.getCharge();
 		
 		Timestamp endTime = new Timestamp(DateTime.now().getMillis());
-		Double charge = chargeService.getDriverCharge(ticket.getStartTime(), endTime, ticket.getVipDriver());
+		BigDecimal charge = chargeService.getDriverCharge(ticket.getStartTime(), endTime, ticket.getVipDriver());
 		
 		return charge;
 	}

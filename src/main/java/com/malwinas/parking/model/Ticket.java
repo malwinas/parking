@@ -1,5 +1,6 @@
 package com.malwinas.parking.model;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 import javax.persistence.Column;
@@ -34,7 +35,7 @@ public class Ticket {
 	private Timestamp endTime;
 	
 	@Column(name = "charge")
-	private Double charge;
+	private BigDecimal charge;
 	
 	public Ticket(String registrationNumber, Timestamp startTime, Boolean vipDriver) {
 		this.registrationNumber = registrationNumber;
@@ -85,11 +86,11 @@ public class Ticket {
 		this.endTime = endTime;
 	}
 
-	public Double getCharge() {
+	public BigDecimal getCharge() {
 		return charge;
 	}
 
-	public void setCharge(Double charge) {
+	public void setCharge(BigDecimal charge) {
 		this.charge = charge;
 	}
 }

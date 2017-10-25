@@ -1,5 +1,6 @@
 package com.malwinas.parking.service;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Collection;
 
@@ -26,13 +27,16 @@ public class OwnerService {
 	}
 	
 	@Transactional
-	public Double getProfit(Long time) {
+	public BigDecimal getProfit(Long time) {
 		Timestamp startOfDay = new Timestamp(new DateTime(time).withTimeAtStartOfDay().getMillis());
 		Timestamp endOfDay = new Timestamp(new DateTime(time).millisOfDay().withMaximumValue().getMillis());
 		
 		Collection<Ticket> tickets = ticketRepository.findByEndTimeGreaterThanEqualAndEndTimeLessThanEqual(startOfDay, endOfDay);
 		
-		Double profit = tickets.stream().mapToDouble(o -> o.getCharge()).sum();
+		BigDecimal profit = BigDecimal.ZERO;
+		
+		for (Ticket ticket : tickets)
+			profit = profit.add(ticket.getCharge());
 		
 		return profit;
 	}

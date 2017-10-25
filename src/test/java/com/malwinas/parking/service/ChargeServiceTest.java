@@ -1,5 +1,6 @@
 package com.malwinas.parking.service;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 import org.joda.time.DateTime;
@@ -25,7 +26,7 @@ public class ChargeServiceTest {
 		Timestamp start = new Timestamp(DateTime.now().withTimeAtStartOfDay().plusHours(8).getMillis());
 		Timestamp end = new Timestamp(DateTime.now().withTimeAtStartOfDay().plusHours(7).getMillis());
 		
-		Double charge = chargeService.getRegularDriverCharge(start, end);
+		BigDecimal charge = chargeService.getRegularDriverCharge(start, end);
 		Assert.assertEquals(0.0, charge.doubleValue(), Math.pow(10, -2));
 	}
 	
@@ -34,7 +35,7 @@ public class ChargeServiceTest {
 		Timestamp start = new Timestamp(DateTime.now().withTimeAtStartOfDay().plusHours(8).getMillis());
 		Timestamp end = new Timestamp(DateTime.now().withTimeAtStartOfDay().plusHours(9).getMillis());
 		
-		Double charge = chargeService.getRegularDriverCharge(start, end);
+		BigDecimal charge = chargeService.getRegularDriverCharge(start, end);
 		Assert.assertEquals(1.0, charge.doubleValue(), Math.pow(10, -2));
 	}
 	
@@ -44,7 +45,7 @@ public class ChargeServiceTest {
 		Timestamp end = new Timestamp(DateTime.now().withTimeAtStartOfDay()
 				.plusHours(14).plusMinutes(30).getMillis());
 		
-		Double charge = chargeService.getRegularDriverCharge(start, end);
+		BigDecimal charge = chargeService.getRegularDriverCharge(start, end);
 		Assert.assertEquals(127.0, charge.doubleValue(), Math.pow(10, -2));
 	}
 	
@@ -53,7 +54,7 @@ public class ChargeServiceTest {
 		Timestamp start = new Timestamp(DateTime.now().withTimeAtStartOfDay().plusHours(8).getMillis());
 		Timestamp end = new Timestamp(DateTime.now().withTimeAtStartOfDay().plusHours(7).getMillis());
 		
-		Double charge = chargeService.getVipDriverCharge(start, end);
+		BigDecimal charge = chargeService.getVipDriverCharge(start, end);
 		Assert.assertEquals(0.0, charge.doubleValue(), Math.pow(10, -2));
 	}
 	
@@ -62,7 +63,7 @@ public class ChargeServiceTest {
 		Timestamp start = new Timestamp(DateTime.now().withTimeAtStartOfDay().plusHours(8).getMillis());
 		Timestamp end = new Timestamp(DateTime.now().withTimeAtStartOfDay().plusHours(9).getMillis());
 		
-		Double charge = chargeService.getVipDriverCharge(start, end);
+		BigDecimal charge = chargeService.getVipDriverCharge(start, end);
 		Assert.assertEquals(0.0, charge.doubleValue(), Math.pow(10, -2));
 	}
 	
@@ -72,7 +73,7 @@ public class ChargeServiceTest {
 		Timestamp end = new Timestamp(DateTime.now().withTimeAtStartOfDay()
 				.plusHours(14).plusMinutes(30).getMillis());
 		
-		Double charge = chargeService.getVipDriverCharge(start, end);
+		BigDecimal charge = chargeService.getVipDriverCharge(start, end);
 		Assert.assertEquals(41.56, charge.doubleValue(), Math.pow(10, -2));
 	}
 	

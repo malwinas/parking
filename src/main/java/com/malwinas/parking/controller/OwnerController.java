@@ -1,5 +1,7 @@
 package com.malwinas.parking.controller;
 
+import java.math.BigDecimal;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,8 +27,8 @@ public class OwnerController {
 	}
 	
 	@RequestMapping(value = "/getProfit", method = RequestMethod.GET)
-	public ResponseEntity<Double> getCharge(@RequestParam("time") Long time) {
-		Double profit = ownerService.getProfit(time);
-		return new ResponseEntity<Double>(profit, HttpStatus.OK);
+	public ResponseEntity<BigDecimal> getCharge(@RequestParam("time") Long time) {
+		BigDecimal profit = ownerService.getProfit(time);
+		return new ResponseEntity<BigDecimal>(profit, HttpStatus.OK);
 	}
 }

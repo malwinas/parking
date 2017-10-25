@@ -1,5 +1,6 @@
 package com.malwinas.parking.controller;
 
+import java.math.BigDecimal;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -47,18 +48,18 @@ public class DriverController {
 	}
 	
 	@RequestMapping(value = "/getCharge/{ticketId}", method = RequestMethod.GET)
-	public ResponseEntity<Double> getCharge(@PathVariable("ticketId") Long ticketId) throws TicketNotFoundException {
-		Double charge = driverService.getCharge(ticketId);
-		return new ResponseEntity<Double>(charge, HttpStatus.OK);
+	public ResponseEntity<BigDecimal> getCharge(@PathVariable("ticketId") Long ticketId) throws TicketNotFoundException {
+		BigDecimal charge = driverService.getCharge(ticketId);
+		return new ResponseEntity<BigDecimal>(charge, HttpStatus.OK);
 	}
 	
-	@ExceptionHandler({TicketNotFoundException.class})
+	@ExceptionHandler(TicketNotFoundException.class)
 	public ResponseEntity<String> handleTicketNotFoundException(TicketNotFoundException ex) {
 		logger.log(Level.WARNING, ex.getMessage());
 		return new ResponseEntity<String>(ex.getMessage(), HttpStatus.NO_CONTENT);
 	} 
 	
-	@ExceptionHandler({InvalidTicketException.class})
+	@ExceptionHandler(InvalidTicketException.class)
 	public ResponseEntity<String> handleInvalidTicketException(InvalidTicketException ex) {
 		logger.log(Level.WARNING, ex.getMessage());
 		return new ResponseEntity<String>(ex.getMessage(), HttpStatus.CONFLICT);
